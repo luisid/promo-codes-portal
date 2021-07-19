@@ -1,0 +1,29 @@
+{
+  "name": "promo-codes",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/luisid/promo-codes-portal.git",
+  "author": "Luis De Leon <l.deleon@outlook.com>",
+  "license": "MIT",
+  "workspaces": [
+    "front-end",
+    "back-end"
+  ],
+  "scripts": {
+    "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "yarn workspaces run test",
+    "test:ci": "yarn workspaces run test --ci"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "8.3.0",
+    "prettier": "2.3.2",
+    "typescript": "^4.3.5"
+  }
+}
