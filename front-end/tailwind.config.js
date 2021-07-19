@@ -6,6 +6,9 @@ module.exports = {
   mode: "jit",
   purge: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    backgroundPosition: {
+      'input-icon': "right 17px center"
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",

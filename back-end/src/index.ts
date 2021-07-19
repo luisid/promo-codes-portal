@@ -59,8 +59,7 @@ app.use(jwtCheck);
 /**
  * Required for demo purposes
  */
-app.use(seedRouter);
-
+app.use("/seed", seedRouter);
 app.use("/services", servicesRouter);
 app.use("/promos", promosRouter);
 

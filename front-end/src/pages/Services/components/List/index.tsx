@@ -14,9 +14,7 @@ export type ServicesListProps = {
 const ServicesList: React.FC<ServicesListProps> = ({ search, pageSize }) => {
   const {
     data,
-    error,
     itemCount,
-    isFetching,
     isItemLoaded,
     isPageLoaded,
     fetchNextPage,

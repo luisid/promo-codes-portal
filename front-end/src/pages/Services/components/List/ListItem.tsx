@@ -1,11 +1,15 @@
-import React, { ChangeEvent, CSSProperties, useCallback, useState } from "react";
+import React, {
+  ChangeEvent,
+  CSSProperties,
+  useCallback,
+  useState,
+} from "react";
 import { Service } from "./hooks/services";
 import { Button } from "../../../../components/Button";
 import { FieldSet } from "../../../../components/FieldSet";
 import { InputField } from "../../../../components/InputField";
 import { Promo as CreatePromo, usePromo } from "./hooks/promo";
-import { Promo } from "./hooks/services";
-import { UseMutationResult } from "react-query";
+import icon from "../../../../assets/icon.png";
 
 export type ListItemProps = {
   style: CSSProperties;
@@ -20,22 +24,47 @@ export type ListItemSkeletonProps = {
 const ListItem: React.FC<ListItemProps> = ({ query, style, content }) => {
   const servicePromo = content.promo;
   const [code, setCode] = useState(servicePromo?.code || "");
-  const { mutate, isLoading, data: createdPromo } = usePromo(query, content.serviceId);
+  const {
+    mutate,
+    isLoading,
+    data: createdPromo,
+  } = usePromo(query, content.serviceId);
 
   const promo = servicePromo || createdPromo;
 
   const handleClick = useCallback(() => {
     mutate({
       code,
-      serviceId: content.serviceId
-    })
+      serviceId: content.serviceId,
+    });
   }, [code]);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (!promo) {
-      setCode(e.target.value)
-    }
-  }, [promo]);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!promo) {
+        setCode(e.target.value);
+      }
+    },
+    [promo]
+  );
+
+  const handleInputClick = useCallback(
+    () => {
+      if (promo) {
+        navigator.clipboard.writeText(promo.code).then(function() {
+          console.log('successful');
+        }, function(err) {
+          console.error('Error copying', err);
+        });
+      }
+    },
+    [promo]
+  );
+
+
+  const havePromo = isLoading || Boolean(promo);
+
+  const havePromoInputCls = "cursor-pointer bg-no-repeat bg-input-icon opacity-50"
 
   return (
     <div style={style}>
@@ -45,8 +74,24 @@ const ListItem: React.FC<ListItemProps> = ({ query, style, content }) => {
           <p className="text-gray-pure mt-[10px]">{content.description}</p>
         </div>
         <FieldSet>
-          <InputField value={code} onChange={handleChange} disabled={isLoading || Boolean(promo)}  className="mr-6" type="text" label="PROMOCODE" />
-          <Button disabled={isLoading || Boolean(promo)} className="ml-2 w-[300px]" onClick={isLoading || Boolean(promo) ? undefined :  handleClick}>
+          <InputField
+            className="mr-6"
+            type="text"
+            label="PROMOCODE"
+            value={code}
+            onChange={handleChange}
+            readOnly={havePromo}
+            inputCls={havePromo ? havePromoInputCls : ''}
+            inputStyle={{
+              backgroundImage: havePromo ? `url(${icon})` : 'none',
+            }}
+            onClick={handleInputClick}
+          />
+          <Button
+            disabled={havePromo}
+            className="ml-2 w-[300px]"
+            onClick={havePromo ? undefined : handleClick}
+          >
             Activate bonus
           </Button>
         </FieldSet>
@@ -64,8 +109,17 @@ const ListItemSkeleton: React.FC<ListItemSkeletonProps> = ({ style }) => {
           <p className="w-52 mt-[10px] bg-gray-pure"></p>
         </div>
         <FieldSet>
-          <InputField disabled className="mr-6 disabled:opacity-20" type="text" label="PROMOCODE" />
-          <Button disabled className="ml-2 w-[300px] disabled:opacity-20" onClick={() => null}>
+          <InputField
+            disabled
+            className="mr-6 disabled:opacity-20"
+            type="text"
+            label="PROMOCODE"
+          />
+          <Button
+            disabled
+            className="ml-2 w-[300px] disabled:opacity-20"
+            onClick={() => null}
+          >
             Activate bonus
           </Button>
         </FieldSet>

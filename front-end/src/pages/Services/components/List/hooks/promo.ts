@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { InfiniteData, useMutation, UseMutationResult } from "react-query";
-import { QueryFilters } from "react-query/types/core/utils";
 import { queryClient } from "../../../../../query-client";
 import { Promo as CreatedPromo, Service } from "./services";
 
@@ -27,7 +26,7 @@ export function usePromo(query: string, mutationKey: number): UseMutationResult<
     );
   }, {
     mutationKey: ['service-mutation', mutationKey],
-    onSuccess: async (newPromo: CreatedPromo, variables: Promo) => {
+    onSuccess: async (newPromo: CreatedPromo) => {
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries(['services', query])
       // Snapshot the previous value

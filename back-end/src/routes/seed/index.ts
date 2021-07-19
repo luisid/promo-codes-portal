@@ -60,6 +60,6 @@ async function seed(req: Request, res: Response, next: NextFunction) {
   res.send();
 }
 
-seedRouter.post("/seed", seed);
+seedRouter.post("/", seed);
 
 export { seedRouter };
