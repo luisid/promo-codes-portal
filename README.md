@@ -21,7 +21,7 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_USER=promos_portal_admin -e 
 Navigate to `back-end` and run:
 
 ```
-npx prisma init
+npx prisma migrate dev
 ```
 
 This will create the tables on the docker instance
